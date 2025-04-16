@@ -1,7 +1,9 @@
 from fastapi import FastAPI
 import uvicorn
 
-app = FastAPI()
+app = FastAPI(
+    title="URL Shortener",
+)
 
 
 # if __name__ == "__main__":
