@@ -1,9 +1,10 @@
 [project]
 name = "fasapi-url-shortener"
 version = "0.1.0"
-description = "FastAOI URL Shortener"
+description = "FastAPI URL Shortener"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "fastapi[standart]>=0.115.12",
+    "fastapi[standard]>=0.115.12",
+    "uvicorn>=0.34.1",
 ]
