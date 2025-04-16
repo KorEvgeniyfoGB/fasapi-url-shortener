@@ -1,5 +1,4 @@
-from fastapi import FastAPI
-import uvicorn
+from fastapi import FastAPI, Request
 
 app = FastAPI(
     title="URL Shortener",
@@ -7,8 +6,12 @@ app = FastAPI(
 
 
 @app.get("/")
-def read_root():
-    return {"message": "Hello World"}
+def read_root(request: Request, name: str = "World"):
+    docs_url = request.url.replace(path="/docs", query="")
+    return {
+        "message": f"Hello {name}",
+        "docs": str(docs_url),
+    }
 
 
 # if __name__ == "__main__":
