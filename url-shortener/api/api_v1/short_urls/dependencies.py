@@ -1,17 +1,14 @@
 from fastapi import HTTPException
 from starlette import status
 
-from api.api_v1.short_urls.crud import SHORT_URLS
+from api.api_v1.short_urls.crud import storage
 from shemas.shorter_url import ShortUrl
 
 
 def prefetch_short_url(
     slug: str,
 ) -> ShortUrl:
-    url: ShortUrl | None = next(
-        (url for url in SHORT_URLS if url.slug == slug),
-        None,
-    )
+    url: ShortUrl | None = storage.get_by_slug(slug=slug)
     if url:
         return url
     raise HTTPException(

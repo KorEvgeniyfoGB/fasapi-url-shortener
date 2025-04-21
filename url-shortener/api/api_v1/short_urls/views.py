@@ -11,8 +11,8 @@ from starlette import status
 from pydantic import AnyHttpUrl
 
 from api.api_v1.short_urls.dependencies import prefetch_short_url
-from api.api_v1.short_urls.crud import SHORT_URLS
-from shemas.shorter_url import ShortUrl
+from api.api_v1.short_urls.crud import storage
+from shemas.shorter_url import ShortUrl, ShortUrlCreate
 
 router = APIRouter(
     prefix="/short-urls",
@@ -22,7 +22,7 @@ router = APIRouter(
 
 @router.get("/", response_model=list[ShortUrl])
 def read_short_urls_list():
-    return SHORT_URLS
+    return storage.get()
 
 
 @router.post(
@@ -30,18 +30,8 @@ def read_short_urls_list():
     response_model=ShortUrl,
     status_code=status.HTTP_201_CREATED,
 )
-def create_short_url(
-    target_url: Annotated[AnyHttpUrl, Form()],
-    slug: Annotated[
-        str,
-        Len(min_length=3, max_length=10),
-        Form(),
-    ],
-):
-    return ShortUrl(
-        target_url=target_url,
-        slug=slug,
-    )
+def create_short_url(short_url_create: ShortUrlCreate):
+    return storage.create(short_url_in=short_url_create)
 
 
 @router.get("/{slug}/", response_model=ShortUrl)
