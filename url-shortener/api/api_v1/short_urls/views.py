@@ -7,12 +7,12 @@ from api.api_v1.short_urls.crud import SHORT_URLS
 from shemas.shorter_url import ShortUrl
 
 router = APIRouter(
-    prefix="/short_urls",
+    prefix="/short-urls",
     tags=["Short URLs"],
 )
 
 
-@router.get("/short-urls/", response_model=list[ShortUrl])
+@router.get("/", response_model=list[ShortUrl])
 def read_short_urls_list():
     return SHORT_URLS
 
