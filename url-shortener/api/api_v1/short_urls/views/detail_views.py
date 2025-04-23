@@ -9,6 +9,7 @@ from shemas.shorter_url import (
     ShortUrl,
     ShortUrlUpdate,
     ShortUrlUpdatePartial,
+    ShortUrlOutput,
 )
 
 
@@ -34,14 +35,14 @@ ShortUrlBySlug = Annotated[
 ]
 
 
-@router.get("/", response_model=ShortUrl)
+@router.get("/", response_model=ShortUrlOutput)
 def read_short_url_detail(slug: ShortUrlBySlug) -> ShortUrl:
     return slug
 
 
 @router.put(
     "/",
-    response_model=ShortUrl,
+    response_model=ShortUrlOutput,
 )
 def update_short_url_details(
     url: ShortUrlBySlug,
@@ -55,7 +56,7 @@ def update_short_url_details(
 
 @router.patch(
     "/",
-    response_model=ShortUrl,
+    response_model=ShortUrlOutput,
 )
 def update_short_url_details_partial(
     url: ShortUrlBySlug,

@@ -4,7 +4,11 @@ from fastapi import (
 from starlette import status
 
 from api.api_v1.short_urls.crud import storage
-from shemas.shorter_url import ShortUrl, ShortUrlCreate
+from shemas.shorter_url import (
+    ShortUrl,
+    ShortUrlCreate,
+    ShortUrlOutput,
+)
 
 router = APIRouter(
     prefix="/short-urls",
@@ -12,14 +16,14 @@ router = APIRouter(
 )
 
 
-@router.get("/", response_model=list[ShortUrl])
+@router.get("/", response_model=list[ShortUrlOutput])
 def read_short_urls_list():
     return storage.get()
 
 
 @router.post(
     "/",
-    response_model=ShortUrl,
+    response_model=ShortUrlOutput,
     status_code=status.HTTP_201_CREATED,
 )
 def create_short_url(short_url_create: ShortUrlCreate):

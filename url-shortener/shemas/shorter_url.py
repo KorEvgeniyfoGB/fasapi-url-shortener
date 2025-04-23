@@ -42,9 +42,14 @@ class ShortUrlUpdatePartial(ShortUrlBase):
     description: DescriptionString | None = None
 
 
+class ShortUrlOutput(ShortUrlBase):
+    slug: str
+
+
 class ShortUrl(ShortUrlBase):
     """
     Модель сокращенной ссылки
     """
 
     slug: str
+    visits: int = 42
