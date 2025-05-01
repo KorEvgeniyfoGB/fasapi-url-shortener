@@ -17,7 +17,7 @@ UNSAFE_METHODS = frozenset(
         "POST",
         "PUT",
         "PATH",
-        "DELITE",
+        "DELETE",
     }
 )
 
