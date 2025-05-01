@@ -1,10 +1,12 @@
 from fastapi import (
     APIRouter,
     BackgroundTasks,
+    Depends,
 )
 from starlette import status
 
 from api.api_v1.short_urls.crud import storage
+from api.api_v1.short_urls.dependencies import save_storage_state
 from shemas.shorter_url import (
     ShortUrl,
     ShortUrlCreate,
@@ -14,6 +16,7 @@ from shemas.shorter_url import (
 router = APIRouter(
     prefix="/short-urls",
     tags=["Short URLs"],
+    dependencies=[Depends(save_storage_state)],
 )
 
 
@@ -29,7 +32,5 @@ def read_short_urls_list():
 )
 def create_short_url(
     short_url_create: ShortUrlCreate,
-    background_tasks: BackgroundTasks,
 ):
-    background_tasks.add_task(storage.safe_state)
     return storage.create(short_url_in=short_url_create)
