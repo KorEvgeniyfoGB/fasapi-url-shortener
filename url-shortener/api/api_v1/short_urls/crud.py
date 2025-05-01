@@ -43,6 +43,18 @@ class ShortUrlStorage(BaseModel):
             return ShortUrlStorage()
         return cls.model_validate_json(URL_SHORT_STORAGE_FILE.read_text())
 
+    def init_from_state(self) -> None:
+        try:
+            data = ShortUrlStorage.from_state()
+        except ValidationError:
+            self.safe_state()
+            log.warning("Rewritten storage file due to validation error.")
+            return
+        self.slug_to_short_url.update(
+            data.slug_to_short_url,
+        )
+        log.warning("Recovered data from storage file.")
+
     def get(self) -> list[ShortUrl]:
         return list(self.slug_to_short_url.values())
 
@@ -83,13 +95,16 @@ class ShortUrlStorage(BaseModel):
         return short_url
 
 
-try:
-    storage = ShortUrlStorage.from_state()
-    log.warning("Recovered from storage file.")
-except ValidationError:
-    storage = ShortUrlStorage()
-    storage.safe_state()
-    log.warning("rewritten storage file due to validation error.")
+storage = ShortUrlStorage()
+
+
+# try:
+#     storage = ShortUrlStorage.from_state()
+#     log.warning("Recovered from storage file.")
+# except ValidationError:
+#     storage = ShortUrlStorage()
+#     storage.safe_state()
+#     log.warning("rewritten storage file due to validation error.")
 
 
 # storage.create(
