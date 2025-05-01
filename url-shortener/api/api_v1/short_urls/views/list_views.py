@@ -1,5 +1,6 @@
 from fastapi import (
     APIRouter,
+    BackgroundTasks,
 )
 from starlette import status
 
@@ -26,5 +27,9 @@ def read_short_urls_list():
     response_model=ShortUrlOutput,
     status_code=status.HTTP_201_CREATED,
 )
-def create_short_url(short_url_create: ShortUrlCreate):
+def create_short_url(
+    short_url_create: ShortUrlCreate,
+    background_tasks: BackgroundTasks,
+):
+    background_tasks.add_task(storage.safe_state)
     return storage.create(short_url_in=short_url_create)

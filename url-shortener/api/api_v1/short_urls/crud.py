@@ -64,12 +64,10 @@ class ShortUrlStorage(BaseModel):
     def create(self, short_url_in: ShortUrlCreate) -> ShortUrl:
         short_url = ShortUrl(**short_url_in.model_dump())
         self.slug_to_short_url[short_url.slug] = short_url
-        self.safe_state()
         return short_url
 
     def delete_by_slug(self, slug: str) -> None:
         self.slug_to_short_url.pop(slug, None)
-        self.safe_state()
 
     def delete(self, short_url: ShortUrl) -> None:
         self.delete_by_slug(slug=short_url.slug)
@@ -81,7 +79,6 @@ class ShortUrlStorage(BaseModel):
     ) -> ShortUrl:
         for field_name, value in short_url_in:
             setattr(short_url, field_name, value)
-        self.safe_state()
         return short_url
 
     def update_partial(
@@ -91,7 +88,6 @@ class ShortUrlStorage(BaseModel):
     ) -> ShortUrl:
         for field_name, values in short_url_in.model_dump(exclude_unset=True).items():
             setattr(short_url, field_name, values)
-        self.safe_state()
         return short_url
 
 
