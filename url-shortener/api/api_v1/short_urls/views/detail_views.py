@@ -4,7 +4,7 @@ from fastapi import Depends, APIRouter, BackgroundTasks
 from starlette import status
 
 from api.api_v1.short_urls.crud import storage
-from api.api_v1.short_urls.dependencies import prefetch_short_url
+from api.api_v1.short_urls.dependencies import prefetch_short_url, api_token_required
 from shemas.shorter_url import (
     ShortUrl,
     ShortUrlUpdate,
