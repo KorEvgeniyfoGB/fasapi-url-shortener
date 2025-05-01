@@ -17,6 +17,18 @@ router = APIRouter(
     prefix="/short-urls",
     tags=["Short URLs"],
     dependencies=[Depends(save_storage_state), Depends(api_token_required)],
+    responses={
+        status.HTTP_401_UNAUTHORIZED: {
+            "description": "Unauthenticated. Only for unsafe methods.",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "detail": "Invalid API token",
+                    },
+                },
+            },
+        },
+    },
 )
 
 
