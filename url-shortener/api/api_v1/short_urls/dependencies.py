@@ -16,7 +16,7 @@ UNSAFE_METHODS = frozenset(
     {
         "POST",
         "PUT",
-        "PATH",
+        "PATCH",
         "DELETE",
     }
 )
